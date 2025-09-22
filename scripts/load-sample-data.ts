@@ -68,10 +68,11 @@ async function loadSampleData() {
     console.log('• 2 Categories (electronics, books)');
     console.log('');
     console.log('Adjacency Relationships (PK ≠ SK):');
-    console.log('• 9 Order→Product links (order items)');
+    console.log('• 8 Order→Product links (order items)');
     console.log('• 3 Product→Category links (categorization)');
     console.log('• 3 User→Review links (review authorship)');
     console.log('• 3 Product→Review links (review targets)');
+    console.log('• 6 User→Order links (customer orders)');
     console.log('');
     console.log('📊 Customer Order History:');
     console.log('• John Doe (12345): 4 orders - $569.97 total');

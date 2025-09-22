@@ -1,15 +1,15 @@
-// Type definitions
+// Base interface for all DynamoDB items
 export interface BaseItem {
   PK: string;
   SK: string;
   Type: string;
-  Data: any;
   GSI1PK?: string;
   GSI1SK?: string;
   CreatedAt?: string;
   UpdatedAt?: string;
 }
 
+// Core entity interfaces (for business logic)
 export interface User {
   userId: string;
   name: string;

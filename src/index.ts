@@ -38,7 +38,7 @@ async function runDemo() {
     });
     
     // 5. Get product IDs in category
-    const productIds = await queries.getProductsInCategory('electronics');
+    const productIds = await queries.getProductsByCategory('electronics');
     console.log(`Found ${productIds.length} products in electronics category: ${productIds.join(', ')}`);
     
     // 6. Get order with items
@@ -54,12 +54,12 @@ async function runDemo() {
     console.log('===================');
     
     // Get all review IDs by a user
-    const userReviewIds = await queries.getUserReviews('54321');
+    const userReviewIds = await queries.getCustomerReviews('54321');
     console.log(`User has written ${userReviewIds.length} reviews: ${userReviewIds.join(', ')}`);
     
-    // Get all order IDs for a specific product
-    const orderIdsForProduct = await queries.getOrdersForProduct('ABC123');
-    console.log(`Product appears in ${orderIdsForProduct.length} orders: ${orderIdsForProduct.join(', ')}`);
+    // Get all order IDs for a customer from main table
+    const orderIdsForCustomer = await queries.getCustomerOrdersFromMainTable('12345');
+    console.log(`Customer has ${orderIdsForCustomer.length} orders: ${orderIdsForCustomer.join(', ')}`);
     
     // Write sharding demo
     await shardingExample.demo();

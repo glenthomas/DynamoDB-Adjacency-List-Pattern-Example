@@ -1,6 +1,6 @@
 import { GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient, TABLE_NAME } from './config';
-import { User, Product, Order, OrderItem, Review, Category, BaseItem, OrderWithItems, ProductWithRelationships } from './types';
+import { User, Product, Order, OrderItem, Review, Category, OrderWithItems, ProductWithRelationships } from './types';
 
 export class EcommerceQueries {
   /**
@@ -20,9 +20,9 @@ export class EcommerceQueries {
     try {
       const result = await docClient.send(new GetCommand(params));
       if (result.Item) {
-        const item = result.Item as BaseItem;
-        console.log('✅ User found:', item.Data);
-        return item.Data as User;
+        const user = result.Item as User;
+        console.log('✅ User found:', JSON.stringify(user));
+        return user;
       } else {
         console.log('❌ User not found');
         return null;
@@ -38,11 +38,10 @@ export class EcommerceQueries {
    */
   async getUserOrders(userId: string): Promise<Order[]> {
     console.log(`\n🔍 Query 2: Getting orders for userId: ${userId}`);
-    
+
     const params = {
       TableName: TABLE_NAME,
-      IndexName: 'GSI1',
-      KeyConditionExpression: 'GSI1PK = :pk AND begins_with(GSI1SK, :sk)',
+      KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
       ExpressionAttributeValues: {
         ':pk': `USER#${userId}`,
         ':sk': 'ORDER#'
@@ -51,8 +50,7 @@ export class EcommerceQueries {
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
-      const orders = items.map(item => item.Data as Order);
+      const orders = (result.Items || []) as Order[];
       
       console.log(`✅ Found ${orders.length} orders`);
       
@@ -83,44 +81,28 @@ export class EcommerceQueries {
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
+      const items = (result.Items || []);
       
       console.log(`✅ Found ${items.length} items (product + relationships)`);
       
-      const productItem = items.find(item => item.Type === 'Product');
-      const reviewItems = items.filter(item => item.Type === 'ProductReview');
-      const categoryItems = items.filter(item => item.Type === 'ProductCategory');
-      
-      if (!productItem) {
+      const product = items.find(item => item.Type === 'Product') as Product;
+      const reviews = items.filter(item => item.Type === 'ProductReview') as Review[];
+      const categories = items.filter(item => item.Type === 'ProductCategory') as Category[];
+
+      if (!product) {
         console.log('❌ Product not found');
         return null;
       }
-
-      const product = productItem.Data as Product;
-      const reviews = reviewItems.map(item => ({
-        reviewId: item.Data.reviewId,
-        customerId: '', // Would need to fetch from review entity
-        productId: item.Data.productId,
-        rating: item.Data.rating,
-        comment: '',
-        reviewDate: ''
-      })) as Review[];
-      
-      const categories = categoryItems.map(item => ({
-        categoryId: item.Data.categoryId,
-        name: item.Data.categoryId, // Would need to fetch full category details
-        description: ''
-      })) as Category[];
       
       console.log('   Product:', product);
       console.log(`   Reviews: ${reviews.length} found`);
       console.log(`   Categories: ${categories.length} found`);
       
-      reviews.forEach((review, index) => {
-        console.log(`     Review ${index + 1} - Rating: ${review.rating}`);
-      });
-      
-      return { product, reviews, categories };
+      return {
+        product,
+        reviews,
+        categories
+      };
     } catch (error) {
       console.error('Error getting product with relationships:', error);
       throw error;
@@ -128,41 +110,28 @@ export class EcommerceQueries {
   }
 
   /**
-   * 4. Get recent reviews for a product
+   * 4. Get all reviews for a specific product
    */
-  async getProductReviews(productId: string, limit: number = 10): Promise<Review[]> {
-    console.log(`\n🔍 Query 4: Getting recent reviews for productId: ${productId}`);
-    
+  async getProductReviews(productId: string): Promise<Review[]> {
+    console.log(`\n🔍 Query 4: Getting reviews for productId: ${productId}`);
+
     const params = {
       TableName: TABLE_NAME,
       KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
       ExpressionAttributeValues: {
         ':pk': `PRODUCT#${productId}`,
         ':sk': 'REVIEW#'
-      },
-      ScanIndexForward: false, // Get most recent first
-      Limit: limit
+      }
     };
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
+      const items = (result.Items || []);
       
-      // These are ProductReview relationship items, extract review info
-      const reviews = items.map(item => ({
-        reviewId: item.Data.reviewId,
-        customerId: '', // Would need separate query to get full review details
-        productId: item.Data.productId,
-        rating: item.Data.rating,
-        comment: '',
-        reviewDate: ''
-      })) as Review[];
+      // Filter for ProductReview relationship items
+      const reviews = items.filter(item => item.Type === 'ProductReview') as Review[];
       
-      console.log(`✅ Found ${reviews.length} reviews`);
-      
-      reviews.forEach((review, index) => {
-        console.log(`   Review ${index + 1} - Rating: ${review.rating}, ReviewId: ${review.reviewId}`);
-      });
+      console.log(`✅ Found ${reviews.length} reviews for product`);
       
       return reviews;
     } catch (error) {
@@ -172,10 +141,10 @@ export class EcommerceQueries {
   }
 
   /**
-   * 5. Get products in category
+   * 5. Get products by category
    */
-  async getProductsInCategory(categoryId: string): Promise<string[]> {
-    console.log(`\n🔍 Query 5: Getting products in category: ${categoryId}`);
+  async getProductsByCategory(categoryId: string): Promise<string[]> {
+    console.log(`\n🔍 Query 5: Getting products in categoryId: ${categoryId}`);
     
     const params = {
       TableName: TABLE_NAME,
@@ -189,29 +158,25 @@ export class EcommerceQueries {
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
+      const items = (result.Items || []);
       
-      // These are ProductCategory relationship items, extract product IDs
-      const productIds = items.map(item => item.Data.productId as string);
+      // These would be ProductCategory relationship items, extract product IDs
+      const productIds = items.map(item => item.productId as string).filter(Boolean);
       
       console.log(`✅ Found ${productIds.length} products in category`);
       
-      productIds.forEach((productId, index) => {
-        console.log(`   Product ${index + 1}: ${productId}`);
-      });
-      
       return productIds;
     } catch (error) {
-      console.error('Error getting products in category:', error);
+      console.error('Error getting products by category:', error);
       throw error;
     }
   }
 
   /**
-   * 6. Get order with all items
+   * 6. Get order with all order items
    */
   async getOrderWithItems(orderId: string): Promise<OrderWithItems | null> {
-    console.log(`\n🔍 Query 6: Getting order with all items for orderId: ${orderId}`);
+    console.log(`\n🔍 Query 6: Getting order and items for orderId: ${orderId}`);
     
     const params = {
       TableName: TABLE_NAME,
@@ -223,33 +188,24 @@ export class EcommerceQueries {
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
+      const items = (result.Items || []);
       
-      console.log(`✅ Found ${items.length} items (order + order items)`);
-      
-      const orderItem = items.find(item => item.Type === 'Order');
-      const orderItemItems = items.filter(item => item.Type === 'OrderItem');
-      
-      if (!orderItem) {
+      const order = items.find(item => item.Type === 'Order') as Order;
+      const orderItems = items.filter(item => item.Type === 'OrderItem') as OrderItem[];
+
+      if (!order) {
         console.log('❌ Order not found');
         return null;
       }
-
-      const order = orderItem.Data as Order;
-      const orderItems = orderItemItems.map(item => item.Data as OrderItem);
       
+      console.log('✅ Order found with items:');
       console.log('   Order:', order);
-      console.log(`   Order Items: ${orderItems.length} found`);
+      console.log(`   Items: ${orderItems.length} found`);
       
-      let totalCalculated = 0;
-      orderItems.forEach((item, index) => {
-        console.log(`     Item ${index + 1}: ${item.productId} x ${item.quantity} = $${item.totalPrice}`);
-        totalCalculated += item.totalPrice;
-      });
-      
-      console.log(`   Total calculated: $${totalCalculated}`);
-      
-      return { order, items: orderItems };
+      return {
+        order,
+        items: orderItems
+      };
     } catch (error) {
       console.error('Error getting order with items:', error);
       throw error;
@@ -257,42 +213,42 @@ export class EcommerceQueries {
   }
 
   /**
-   * Advanced: Get all reviews by a user
+   * 7. Get all reviews by a customer
    */
-  async getUserReviews(userId: string): Promise<string[]> {
-    console.log(`\n🔍 Advanced Query: Getting all reviews by userId: ${userId}`);
-    
+  async getCustomerReviews(customerId: string): Promise<string[]> {
+    console.log(`\n🔍 Query 7: Getting reviews by customerId: ${customerId}`);
+
     const params = {
       TableName: TABLE_NAME,
       KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
       ExpressionAttributeValues: {
-        ':pk': `USER#${userId}`,
+        ':pk': `USER#${customerId}`,
         ':sk': 'REVIEW#'
       }
     };
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
+      const items = (result.Items || []);
       
-      // These are UserReview relationship items, extract review IDs
-      const reviewIds = items.map(item => item.Data.reviewId as string);
+      const reviewItems = items.filter(item => item.Type === 'UserReview');
+      const reviewIds = reviewItems.map(item => item.reviewId as string).filter(Boolean);
       
-      console.log(`✅ Found ${reviewIds.length} reviews by this user`);
+      console.log(`✅ Found ${reviewIds.length} reviews by customer`);
       
       return reviewIds;
     } catch (error) {
-      console.error('Error getting user reviews:', error);
+      console.error('Error getting customer reviews:', error);
       throw error;
     }
   }
 
   /**
-   * Advanced: Get all orders for a specific product
+   * 8. Get all orders containing a specific product
    */
   async getOrdersForProduct(productId: string): Promise<string[]> {
-    console.log(`\n🔍 Advanced Query: Getting orders for productId: ${productId}`);
-    
+    console.log(`\n🔍 Query 8: Getting orders for productId: ${productId}`);
+
     const params = {
       TableName: TABLE_NAME,
       IndexName: 'GSI1',
@@ -305,13 +261,13 @@ export class EcommerceQueries {
 
     try {
       const result = await docClient.send(new QueryCommand(params));
-      const items = (result.Items || []) as BaseItem[];
-      
-      // These are OrderItem relationship items, extract order IDs
-      const orderIds = items.map(item => item.Data.orderId as string);
-      
-      console.log(`✅ Found ${orderIds.length} orders containing this product`);
-      
+      const items = (result.Items || []);
+
+      // These would be OrderItem relationship items, extract order IDs
+      const orderIds = items.map(item => item.orderId as string).filter(Boolean);
+
+      console.log(`✅ Found ${orderIds.length} orders for product`);
+
       return orderIds;
     } catch (error) {
       console.error('Error getting orders for product:', error);

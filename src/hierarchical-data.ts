@@ -43,11 +43,9 @@ export class HierarchicalDataExample {
         PK: `CATEGORY#${category.id}`,
         SK: `CATEGORY#${category.id}`,
         Type: 'Category',
-        Data: {
-          categoryId: category.id,
-          name: category.name,
-          parentId: category.parentId
-        },
+        categoryId: category.id,
+        name: category.name,
+        parentId: category.parentId,
         CreatedAt: new Date().toISOString()
       };
 
@@ -62,11 +60,9 @@ export class HierarchicalDataExample {
           PK: `CATEGORY#${category.parentId}`,
           SK: `CHILD#${category.id}`,
           Type: 'CategoryChild',
-          Data: {
-            parentCategoryId: category.parentId,
-            childCategoryId: category.id,
-            childName: category.name
-          },
+          parentCategoryId: category.parentId,
+          childCategoryId: category.id,
+          childName: category.name,
           GSI1PK: `CATEGORY#${category.id}`,
           GSI1SK: `PARENT#${category.parentId}`,
           CreatedAt: new Date().toISOString()
@@ -105,7 +101,7 @@ export class HierarchicalDataExample {
       
       console.log(`✅ Found ${children.length} direct children:`);
       children.forEach((child, index) => {
-        console.log(`   ${index + 1}. ${child.Data.childName} (${child.Data.childCategoryId})`);
+        console.log(`   ${index + 1}. ${child.childName} (${child.childCategoryId})`);
       });
 
       return children;
@@ -136,7 +132,7 @@ export class HierarchicalDataExample {
       const parent = result.Items?.[0];
       
       if (parent) {
-        console.log(`✅ Parent found: ${parent.Data.parentCategoryId}`);
+        console.log(`✅ Parent found: ${parent.parentCategoryId}`);
         return parent;
       } else {
         console.log('✅ This is a root category (no parent)');
@@ -162,7 +158,7 @@ export class HierarchicalDataExample {
       const parent = await this.getCategoryParent(currentCategoryId);
       if (!parent) break;
 
-      const parentId = parent.Data.parentCategoryId;
+      const parentId = parent.parentCategoryId;
       path.unshift(parentId);
       currentCategoryId = parentId;
     }
@@ -182,7 +178,7 @@ export class HierarchicalDataExample {
     const descendants: string[] = [];
 
     for (const child of children) {
-      const childId = child.Data.childCategoryId;
+      const childId = child.childCategoryId;
       descendants.push(childId);
       
       // Recursively get grandchildren

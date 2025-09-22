@@ -3,13 +3,11 @@
     "PK": "ORDER#ORD001",
     "SK": "PRODUCT#ABC123",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD001",
-      "productId": "ABC123",
-      "quantity": 1,
-      "unitPrice": 199.99,
-      "totalPrice": 199.99
-    },
+    "orderId": "ORD001",
+    "productId": "ABC123",
+    "quantity": 1,
+    "unitPrice": 199.99,
+    "totalPrice": 199.99,
     "GSI1PK": "PRODUCT#ABC123",
     "GSI1SK": "ORDER#ORD001",
     "CreatedAt": "2024-01-20T12:00:00Z"
@@ -18,13 +16,11 @@
     "PK": "ORDER#ORD002",
     "SK": "PRODUCT#DEF456",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD002",
-      "productId": "DEF456",
-      "quantity": 1,
-      "unitPrice": 89.99,
-      "totalPrice": 89.99
-    },
+    "orderId": "ORD002",
+    "productId": "DEF456",
+    "quantity": 1,
+    "unitPrice": 89.99,
+    "totalPrice": 89.99,
     "GSI1PK": "PRODUCT#DEF456",
     "GSI1SK": "ORDER#ORD002",
     "CreatedAt": "2024-01-22T15:30:00Z"
@@ -33,13 +29,11 @@
     "PK": "ORDER#ORD002",
     "SK": "PRODUCT#GHI789",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD002",
-      "productId": "GHI789",
-      "quantity": 1,
-      "unitPrice": 79.99,
-      "totalPrice": 79.99
-    },
+    "orderId": "ORD002",
+    "productId": "GHI789",
+    "quantity": 1,
+    "unitPrice": 79.99,
+    "totalPrice": 79.99,
     "GSI1PK": "PRODUCT#GHI789",
     "GSI1SK": "ORDER#ORD002",
     "CreatedAt": "2024-01-22T15:30:00Z"
@@ -48,13 +42,11 @@
     "PK": "ORDER#ORD003",
     "SK": "PRODUCT#GHI789",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD003",
-      "productId": "GHI789",
-      "quantity": 1,
-      "unitPrice": 79.99,
-      "totalPrice": 79.99
-    },
+    "orderId": "ORD003",
+    "productId": "GHI789",
+    "quantity": 1,
+    "unitPrice": 79.99,
+    "totalPrice": 79.99,
     "GSI1PK": "PRODUCT#GHI789",
     "GSI1SK": "ORDER#ORD003",
     "CreatedAt": "2024-02-01T09:15:00Z"
@@ -63,13 +55,11 @@
     "PK": "ORDER#ORD004",
     "SK": "PRODUCT#DEF456",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD004",
-      "productId": "DEF456",
-      "quantity": 1,
-      "unitPrice": 89.99,
-      "totalPrice": 89.99
-    },
+    "orderId": "ORD004",
+    "productId": "DEF456",
+    "quantity": 1,
+    "unitPrice": 89.99,
+    "totalPrice": 89.99,
     "GSI1PK": "PRODUCT#DEF456",
     "GSI1SK": "ORDER#ORD004",
     "CreatedAt": "2024-02-05T14:20:00Z"
@@ -78,13 +68,11 @@
     "PK": "ORDER#ORD005",
     "SK": "PRODUCT#ABC123",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD005",
-      "productId": "ABC123",
-      "quantity": 1,
-      "unitPrice": 199.99,
-      "totalPrice": 199.99
-    },
+    "orderId": "ORD005",
+    "productId": "ABC123",
+    "quantity": 1,
+    "unitPrice": 199.99,
+    "totalPrice": 199.99,
     "GSI1PK": "PRODUCT#ABC123",
     "GSI1SK": "ORDER#ORD005",
     "CreatedAt": "2024-02-10T16:45:00Z"
@@ -93,13 +81,11 @@
     "PK": "ORDER#ORD006",
     "SK": "PRODUCT#ABC123",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD006",
-      "productId": "ABC123",
-      "quantity": 1,
-      "unitPrice": 199.99,
-      "totalPrice": 199.99
-    },
+    "orderId": "ORD006",
+    "productId": "ABC123",
+    "quantity": 1,
+    "unitPrice": 199.99,
+    "totalPrice": 199.99,
     "GSI1PK": "PRODUCT#ABC123",
     "GSI1SK": "ORDER#ORD006",
     "CreatedAt": "2024-02-15T11:30:00Z"
@@ -108,13 +94,11 @@
     "PK": "ORDER#ORD006",
     "SK": "PRODUCT#GHI789",
     "Type": "OrderItem",
-    "Data": {
-      "orderId": "ORD006",
-      "productId": "GHI789",
-      "quantity": 1,
-      "unitPrice": 79.99,
-      "totalPrice": 79.99
-    },
+    "orderId": "ORD006",
+    "productId": "GHI789",
+    "quantity": 1,
+    "unitPrice": 79.99,
+    "totalPrice": 79.99,
     "GSI1PK": "PRODUCT#GHI789",
     "GSI1SK": "ORDER#ORD006",
     "CreatedAt": "2024-02-15T11:30:00Z"
@@ -123,10 +107,8 @@
     "PK": "PRODUCT#ABC123",
     "SK": "CATEGORY#electronics",
     "Type": "ProductCategory",
-    "Data": {
-      "productId": "ABC123",
-      "categoryId": "electronics"
-    },
+    "productId": "ABC123",
+    "categoryId": "electronics",
     "GSI1PK": "CATEGORY#electronics",
     "GSI1SK": "PRODUCT#ABC123",
     "CreatedAt": "2024-01-16T14:20:00Z"
@@ -135,10 +117,8 @@
     "PK": "PRODUCT#DEF456",
     "SK": "CATEGORY#books",
     "Type": "ProductCategory",
-    "Data": {
-      "productId": "DEF456",
-      "categoryId": "books"
-    },
+    "productId": "DEF456",
+    "categoryId": "books",
     "GSI1PK": "CATEGORY#books",
     "GSI1SK": "PRODUCT#DEF456",
     "CreatedAt": "2024-01-17T09:15:00Z"
@@ -147,10 +127,8 @@
     "PK": "PRODUCT#GHI789",
     "SK": "CATEGORY#electronics",
     "Type": "ProductCategory",
-    "Data": {
-      "productId": "GHI789",
-      "categoryId": "electronics"
-    },
+    "productId": "GHI789",
+    "categoryId": "electronics",
     "GSI1PK": "CATEGORY#electronics",
     "GSI1SK": "PRODUCT#GHI789",
     "CreatedAt": "2024-01-18T11:30:00Z"
@@ -159,10 +137,8 @@
     "PK": "USER#12345",
     "SK": "REVIEW#REV001",
     "Type": "UserReview",
-    "Data": {
-      "customerId": "12345",
-      "reviewId": "REV001"
-    },
+    "customerId": "12345",
+    "reviewId": "REV001",
     "GSI1PK": "REVIEW#REV001",
     "GSI1SK": "USER#12345",
     "CreatedAt": "2024-01-25T09:30:00Z"
@@ -171,11 +147,9 @@
     "PK": "PRODUCT#ABC123",
     "SK": "REVIEW#REV001",
     "Type": "ProductReview",
-    "Data": {
-      "productId": "ABC123",
-      "reviewId": "REV001",
-      "rating": 5
-    },
+    "productId": "ABC123",
+    "reviewId": "REV001",
+    "rating": 5,
     "GSI1PK": "REVIEW#REV001",
     "GSI1SK": "PRODUCT#ABC123",
     "CreatedAt": "2024-01-25T09:30:00Z"
@@ -184,10 +158,8 @@
     "PK": "USER#54321",
     "SK": "REVIEW#REV002",
     "Type": "UserReview",
-    "Data": {
-      "customerId": "54321",
-      "reviewId": "REV002"
-    },
+    "customerId": "54321",
+    "reviewId": "REV002",
     "GSI1PK": "REVIEW#REV002",
     "GSI1SK": "USER#54321",
     "CreatedAt": "2024-01-26T14:15:00Z"
@@ -196,11 +168,9 @@
     "PK": "PRODUCT#DEF456",
     "SK": "REVIEW#REV002",
     "Type": "ProductReview",
-    "Data": {
-      "productId": "DEF456",
-      "reviewId": "REV002",
-      "rating": 4
-    },
+    "productId": "DEF456",
+    "reviewId": "REV002",
+    "rating": 4,
     "GSI1PK": "REVIEW#REV002",
     "GSI1SK": "PRODUCT#DEF456",
     "CreatedAt": "2024-01-26T14:15:00Z"
@@ -209,10 +179,8 @@
     "PK": "USER#54321",
     "SK": "REVIEW#REV003",
     "Type": "UserReview",
-    "Data": {
-      "customerId": "54321",
-      "reviewId": "REV003"
-    },
+    "customerId": "54321",
+    "reviewId": "REV003",
     "GSI1PK": "REVIEW#REV003",
     "GSI1SK": "USER#54321",
     "CreatedAt": "2024-01-27T11:45:00Z"
@@ -221,13 +189,71 @@
     "PK": "PRODUCT#GHI789",
     "SK": "REVIEW#REV003",
     "Type": "ProductReview",
-    "Data": {
-      "productId": "GHI789",
-      "reviewId": "REV003",
-      "rating": 5
-    },
+    "productId": "GHI789",
+    "reviewId": "REV003",
+    "rating": 5,
     "GSI1PK": "REVIEW#REV003",
     "GSI1SK": "PRODUCT#GHI789",
     "CreatedAt": "2024-01-27T11:45:00Z"
+  },
+  {
+    "PK": "USER#12345",
+    "SK": "ORDER#ORD001",
+    "Type": "CustomerOrder",
+    "customerId": "12345",
+    "orderId": "ORD001",
+    "GSI1PK": "ORDER#ORD001",
+    "GSI1SK": "USER#12345",
+    "CreatedAt": "2024-01-20T12:00:00Z"
+  },
+  {
+    "PK": "USER#54321",
+    "SK": "ORDER#ORD002",
+    "Type": "CustomerOrder",
+    "customerId": "54321",
+    "orderId": "ORD002",
+    "GSI1PK": "ORDER#ORD002",
+    "GSI1SK": "USER#54321",
+    "CreatedAt": "2024-01-22T15:30:00Z"
+  },
+  {
+    "PK": "USER#12345",
+    "SK": "ORDER#ORD003",
+    "Type": "CustomerOrder",
+    "customerId": "12345",
+    "orderId": "ORD003",
+    "GSI1PK": "ORDER#ORD003",
+    "GSI1SK": "USER#12345",
+    "CreatedAt": "2024-02-01T09:15:00Z"
+  },
+  {
+    "PK": "USER#12345",
+    "SK": "ORDER#ORD004",
+    "Type": "CustomerOrder",
+    "customerId": "12345",
+    "orderId": "ORD004",
+    "GSI1PK": "ORDER#ORD004",
+    "GSI1SK": "USER#12345",
+    "CreatedAt": "2024-02-05T14:20:00Z"
+  },
+  {
+    "PK": "USER#54321",
+    "SK": "ORDER#ORD005",
+    "Type": "CustomerOrder",
+    "customerId": "54321",
+    "orderId": "ORD005",
+    "GSI1PK": "ORDER#ORD005",
+    "GSI1SK": "USER#54321",
+    "CreatedAt": "2024-02-10T16:45:00Z"
+  },
+  {
+    "PK": "USER#54321",
+    "SK": "ORDER#ORD006",
+    "Type": "CustomerOrder",
+    "customerId": "54321",
+    "orderId": "ORD006",
+    "GSI1PK": "ORDER#ORD006",
+    "GSI1SK": "USER#54321",
+    "CreatedAt": "2024-02-15T11:30:00Z"
   }
 ]
