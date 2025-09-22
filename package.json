@@ -1,0 +1,29 @@
+{
+  "name": "dynamodb-adjacency-list-example",
+  "version": "1.0.0",
+  "description": "Example implementation of DynamoDB Adjacency List pattern for e-commerce data",
+  "main": "dist/index.js",
+  "scripts": {
+    "setup": "chmod +x scripts/setup.sh && ./scripts/setup.sh",
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node dist/index.js",
+    "load-data": "ts-node scripts/load-sample-data.ts",
+    "clean-table": "ts-node scripts/clean-table.ts",
+    "test": "jest"
+  },
+  "keywords": ["dynamodb", "adjacency-list", "aws", "typescript"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.445.0",
+    "@aws-sdk/lib-dynamodb": "^3.445.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}
