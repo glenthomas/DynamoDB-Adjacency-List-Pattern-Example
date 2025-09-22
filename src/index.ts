@@ -56,11 +56,11 @@ async function runDemo() {
     // Get all review IDs by a user
     const userReviewIds = await queries.getCustomerReviews('54321');
     console.log(`User has written ${userReviewIds.length} reviews: ${userReviewIds.join(', ')}`);
-    
-    // Get all order IDs for a customer from main table
-    const orderIdsForCustomer = await queries.getCustomerOrdersFromMainTable('12345');
-    console.log(`Customer has ${orderIdsForCustomer.length} orders: ${orderIdsForCustomer.join(', ')}`);
-    
+
+    // Get all order IDs for a product
+    const orderIdsForProduct = await queries.getOrdersForProduct('ABC123');
+    console.log(`Product has ${orderIdsForProduct.length} orders: ${orderIdsForProduct.join(', ')}`);
+
     // Write sharding demo
     await shardingExample.demo();
     
